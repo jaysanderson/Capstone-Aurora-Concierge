@@ -1,0 +1,34 @@
+{
+  "customer": {
+    "name": "Sara",
+    "segment": "Weekend Adventurer",
+    "loyalty_tier": "Prospect",
+    "region": "NORAM",
+    "sizing_profile": "Standard width, US M 8",
+    "session_history": [
+      {"ts": "2028-04-12T14:08Z", "page": "/blog/tasmania-overland", "dwell_seconds": 280},
+      {"ts": "2028-04-12T14:14Z", "page": "/product/terratrek-7", "dwell_seconds": 425},
+      {"ts": "2028-04-12T14:23Z", "page": "/product/terratrek-7/reviews", "dwell_seconds": 195},
+      {"ts": "2028-04-12T14:28Z", "action": "add_to_cart", "product": "Aurora TerraTrek 7", "size": "US M 8", "color": "Slate"},
+      {"ts": "2028-04-12T14:31Z", "page": "/cart", "dwell_seconds": 82},
+      {"ts": "2028-04-12T14:32Z", "action": "abandon"}
+    ]
+  },
+  "cart": {
+    "items": [
+      {
+        "sku": "AURORA-TT7",
+        "name": "Aurora TerraTrek 7",
+        "variant": "US M 8, Slate",
+        "qty": 1,
+        "price_usd": 248.0
+      }
+    ],
+    "total_usd": 248.0,
+    "currency": "USD",
+    "abandoned_hours_ago": 36
+  },
+  "recommended_send_window_local": "Tuesday 7:45pm",
+  "open_rate_baseline_pct": 24.1,
+  "open_rate_at_send_window_pct": 41.6
+}

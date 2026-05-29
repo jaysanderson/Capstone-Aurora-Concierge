@@ -1,0 +1,39 @@
+{
+  "products": [
+    { "sku": "AURORA-TT7", "name": "Aurora TerraTrek 7", "category": "Hiking Boots", "ambassador": "Mara Chen", "price_usd": 248, "brand_pillars": ["Built for the Worst Weather", "Repairable for Life"] },
+    { "sku": "AURORA-SK45", "name": "Aurora Skyline 45L", "category": "Multi-Day Packs", "ambassador": "Jonah Reyes", "price_usd": 215, "brand_pillars": ["Trail-Tested by Experts", "Repairable for Life"] },
+    { "sku": "AURORA-HEL", "name": "Aurora Helios", "category": "Down Insulation", "ambassador": "Mara Chen", "price_usd": 312, "brand_pillars": ["Built for the Worst Weather", "Carbon-Negative by 2030"] },
+    { "sku": "AURORA-CUM2P", "name": "Aurora Cumulus 2P", "category": "Tents", "ambassador": "Theo Sundberg", "price_usd": 425, "brand_pillars": ["Built for the Worst Weather", "Repairable for Life"] },
+    { "sku": "AURORA-Q850", "name": "Aurora Quill 850", "category": "Sleeping Quilts", "ambassador": "Jonah Reyes", "price_usd": 365, "brand_pillars": ["Trail-Tested by Experts", "Carbon-Negative by 2030"] },
+    { "sku": "AURORA-CRAGXR", "name": "Aurora Crag XR", "category": "Climbing Harnesses", "ambassador": "Theo Sundberg", "price_usd": 158, "brand_pillars": ["Trail-Tested by Experts"], "loyalty_exclusive": "Trail Club Plus" }
+  ],
+  "ambassadors": [
+    { "name": "Mara Chen", "specialty": "Alpine guide, 15 years", "products": ["Aurora TerraTrek 7", "Aurora Helios", "Aurora Quill 850"] },
+    { "name": "Jonah Reyes", "specialty": "Triple Crown thru-hiker", "products": ["Aurora Skyline 45L", "Aurora Quill 850"] },
+    { "name": "Dr Anya Patel", "specialty": "Sports physiologist & gear-fit specialist", "products": [] },
+    { "name": "Theo Sundberg", "specialty": "Climbing instructor, 22 years (Chamonix)", "products": ["Aurora Cumulus 2P", "Aurora Crag XR"] }
+  ],
+  "destinations": [
+    { "name": "Tasmania Overland Track", "country": "Australia", "best_season": "Oct-May", "ambassadors": ["Mara Chen"] },
+    { "name": "Patagonia W Trek", "country": "Chile", "best_season": "Oct-Apr", "ambassadors": ["Mara Chen"] },
+    { "name": "Tour du Mont Blanc", "country": "France/Italy/Switzerland", "best_season": "Jun-Sep", "ambassadors": ["Theo Sundberg"] },
+    { "name": "Annapurna Circuit", "country": "Nepal", "best_season": "Oct-Nov, Mar-Apr", "ambassadors": ["Jonah Reyes"] },
+    { "name": "Yosemite High Sierra", "country": "USA", "best_season": "Jun-Sep", "ambassadors": ["Jonah Reyes"] }
+  ],
+  "segments": [
+    { "name": "Weekend Adventurer", "definition": "1-3 night casual trips. Suburban / urban customer base." },
+    { "name": "Thru-Hiker", "definition": "Multi-week continuous trail. Performance-driven." },
+    { "name": "Alpine Pro", "definition": "Technical alpine climbing. Expert customer base." }
+  ],
+  "loyalty_tiers": [
+    { "name": "Trail Club Standard", "annual_floor_usd": 0, "perks": ["10% off first order", "early-drop access"] },
+    { "name": "Trail Club Plus", "annual_floor_usd": 500, "perks": ["free first Repair-for-Life repair/year", "15% off", "free pack-fitting"] },
+    { "name": "Trail Club Pro", "annual_floor_usd": 1500, "perks": ["unlimited free first repairs", "ambassador day", "20% off"] }
+  ],
+  "brand_pillars": [
+    "Built for the Worst Weather",
+    "Trail-Tested by Experts",
+    "Repairable for Life",
+    "Carbon-Negative by 2030"
+  ]
+}

@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body { @apply bg-sand-50 text-sand-900 antialiased; }
+  h1, h2 { @apply font-display tracking-tight; }
+  h3 { @apply font-semibold; }
+}
+
+@layer components {
+  .card {
+    @apply rounded-xl border border-sand-200 bg-white shadow-sm p-5;
+  }
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium;
+  }
+  .badge-alpine { @apply border-alpine-400 bg-alpine-50 text-alpine-600; }
+  .badge-rust { @apply border-rust-400 bg-rust-50 text-rust-600; }
+  .badge-sand { @apply border-sand-300 bg-sand-100 text-sand-700; }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-alpine-500 px-5 py-2 text-sm font-medium text-white hover:bg-alpine-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-sand-300 px-5 py-2 text-sm font-medium text-sand-800 hover:bg-sand-100 transition-colors;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full border border-sand-300 bg-white px-3 py-1 text-xs font-medium text-sand-700 hover:bg-sand-100 cursor-pointer transition-colors;
+  }
+  .chip-active { @apply border-alpine-500 bg-alpine-50 text-alpine-600; }
+  .input {
+    @apply w-full rounded-md border border-sand-300 bg-white px-3 py-2 text-sm text-sand-900 placeholder:text-sand-400 focus:border-alpine-500 focus:outline-none focus:ring-1 focus:ring-alpine-500;
+  }
+  .pill-cta {
+    @apply inline-flex items-center gap-1 rounded-full bg-rust-500 px-4 py-2 text-sm font-semibold text-white no-underline hover:bg-rust-600;
+  }
+}
