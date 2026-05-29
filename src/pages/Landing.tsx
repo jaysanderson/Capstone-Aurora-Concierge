@@ -48,6 +48,7 @@ export function Landing() {
 
 const SURFACES = [
   { tier: 'Tier 1 + 2', title: 'Storefront', description: 'Hybrid product discovery with CTAs picked from custom fields.', to: '/storefront' },
+  { tier: 'Tier 1 · /find', title: 'For You', description: 'Persona-driven personalization grid. No query box — derived from segment, tier, region.', to: '/for-you' },
   { tier: 'Tier 2', title: 'Concierge', description: 'Two-voice floating chat. Shopper vs Trail Club Member. Multilingual.', to: '/concierge' },
   { tier: 'Tier 3', title: 'Personalize', description: 'Three schema-constrained workflows — Adventure Plan, Loyalty, Cross-Sell.', to: '/personalize' },
   { tier: 'Tier 4', title: 'Journey Graph', description: 'Customer-journey reasoning over products, ambassadors, destinations, content.', to: '/journey-graph' },

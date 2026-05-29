@@ -4,6 +4,7 @@ import { Footer } from './components/Footer';
 import { FloatingChat } from './components/FloatingChat';
 import { Landing } from './pages/Landing';
 import { Storefront } from './pages/Storefront';
+import { ForYou } from './pages/ForYou';
 import { Concierge } from './pages/Concierge';
 import { Personalize } from './pages/Personalize';
 import { JourneyGraph } from './pages/JourneyGraph';
@@ -37,6 +38,7 @@ export default function App() {
                 <Routes>
                   <Route path="/" element={<Landing />} />
                   <Route path="/storefront" element={<Storefront />} />
+                  <Route path="/for-you" element={<ForYou />} />
                   <Route path="/concierge" element={<Concierge />} />
                   <Route path="/personalize" element={<Personalize />} />
                   <Route path="/journey-graph" element={<JourneyGraph />} />

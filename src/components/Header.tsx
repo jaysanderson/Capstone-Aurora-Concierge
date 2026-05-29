@@ -7,6 +7,7 @@ import { usePersona, PERSONAS } from '../context/PersonaContext';
 const NAV = [
   { to: '/', label: 'Aurora' },
   { to: '/storefront', label: 'Storefront' },
+  { to: '/for-you', label: 'For You' },
   { to: '/concierge', label: 'Concierge' },
   { to: '/personalize', label: 'Personalize' },
   { to: '/journey-graph', label: 'Journey' },

@@ -29,9 +29,12 @@ export default {
           900: '#0c1c25',
         },
         rust: {
+          50: '#fbf1ec',
+          100: '#f5dccc',
           400: '#df7a4a',
           500: '#c45a2c',
           600: '#9f4321',
+          700: '#7c3215',
         },
       },
       fontFamily: {
