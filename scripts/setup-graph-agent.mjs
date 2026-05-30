@@ -38,16 +38,21 @@ const ENTITY_DEFS = [
   { label: 'SIZING_PROFILE', description: 'A sizing profile: Standard, Wide Foot, Narrow Foot, High Arch.' },
 ];
 
+// `operations` uses a tagged-union: each entry is an object where the
+// operation type is the key. Set `graph` for graph extraction; leave the
+// rest null. Confirmed by inspecting an existing config in the API.
 const TASK_BODY = {
   name: 'aurora-journey-graph',
   on: 1, // ApplyTo.FIELD — llm-graph only supports field-level extraction
   operations: [
     {
-      ident: 'aurora-journey-graph',
-      entity_defs: ENTITY_DEFS,
+      graph: {
+        ident: 'aurora-journey-graph',
+        entity_defs: ENTITY_DEFS,
+      },
     },
   ],
-  llm: {}, // use KB's default generative model
+  llm: {}, // use KB's default generative model (Gemini 2.5 Flash Lite by default)
 };
 
 async function main() {
