@@ -31,7 +31,7 @@ const headers = {
 
 const HERO_PRODUCTS = [
   {
-    slug: 'terratrek-7',
+    slug: 'product-terratrek-7',
     callToAction: 'Try the Aurora TerraTrek 7 risk-free for 90 days → https://aurora.example/p/terratrek-7',
     searchResultDisplay: {
       title: 'Aurora TerraTrek 7 — Day & Thru-Hike Boot',
@@ -40,7 +40,7 @@ const HERO_PRODUCTS = [
     },
   },
   {
-    slug: 'skyline-45l',
+    slug: 'product-skyline-45l',
     callToAction: 'Spec your Aurora Skyline 45L for your next thru-hike → https://aurora.example/p/skyline-45l',
     searchResultDisplay: {
       title: 'Aurora Skyline 45L — Multi-Day Trekking Pack',
@@ -49,7 +49,7 @@ const HERO_PRODUCTS = [
     },
   },
   {
-    slug: 'helios-jacket',
+    slug: 'product-helios-jacket',
     callToAction: 'Get the Aurora Helios in time for winter → https://aurora.example/p/helios',
     searchResultDisplay: {
       title: 'Aurora Helios — 850-Fill Down Jacket',
@@ -58,7 +58,7 @@ const HERO_PRODUCTS = [
     },
   },
   {
-    slug: 'cumulus-2p-tent',
+    slug: 'product-cumulus-2p-tent',
     callToAction: 'Pitch the Aurora Cumulus 2P this weekend → https://aurora.example/p/cumulus-2p',
     searchResultDisplay: {
       title: 'Aurora Cumulus 2P — Two-Person Backpacking Tent',
@@ -67,7 +67,7 @@ const HERO_PRODUCTS = [
     },
   },
   {
-    slug: 'quill-850-quilt',
+    slug: 'product-quill-850-quilt',
     callToAction: 'Sleep warmer with the Aurora Quill 850 → https://aurora.example/p/quill-850',
     searchResultDisplay: {
       title: 'Aurora Quill 850 — Ultralight Down Quilt',
@@ -76,7 +76,7 @@ const HERO_PRODUCTS = [
     },
   },
   {
-    slug: 'crag-xr-harness',
+    slug: 'product-crag-xr-harness',
     callToAction: 'Climb with the Aurora Crag XR (Trail Club Plus exclusive) → https://aurora.example/p/crag-xr',
     searchResultDisplay: {
       title: 'Aurora Crag XR — Technical Climbing Harness',
@@ -88,7 +88,7 @@ const HERO_PRODUCTS = [
 
 const AMBASSADOR_VIDEOS = [
   {
-    slug: 'mara-chen',
+    slug: 'ambassador_video-mara-chen',
     videoInfo: {
       speakers: ['Mara Chen'],
       topics: ['alpine guiding', 'Patagonia', 'Tasmania Overland', 'TerraTrek 7', 'Helios', 'Quill 850'],
@@ -101,7 +101,7 @@ const AMBASSADOR_VIDEOS = [
     },
   },
   {
-    slug: 'jonah-reyes',
+    slug: 'ambassador_video-jonah-reyes',
     videoInfo: {
       speakers: ['Jonah Reyes'],
       topics: ['Triple Crown', 'thru-hiking', 'Skyline 45L', 'Quill 850'],
@@ -114,7 +114,7 @@ const AMBASSADOR_VIDEOS = [
     },
   },
   {
-    slug: 'theo-sundberg',
+    slug: 'ambassador_video-theo-sundberg',
     videoInfo: {
       speakers: ['Theo Sundberg'],
       topics: ['alpine climbing', 'Chamonix', 'Cumulus 2P', 'Crag XR'],
@@ -133,23 +133,24 @@ async function patchResource(slug, fields) {
   const lookup = await fetch(`${baseUrl}/slug/${slug}`, { headers });
   if (!lookup.ok) throw new Error(`Lookup ${slug}: ${lookup.status} ${lookup.statusText}`);
   const lookupBody = await lookup.json();
-  const id = lookupBody?.uuid ?? lookupBody?.rid;
+  const id = lookupBody?.id ?? lookupBody?.uuid ?? lookupBody?.rid;
   if (!id) throw new Error(`No resource id for slug ${slug}`);
 
-  // PATCH usermetadata.custom
+  // PATCH data.texts.<fieldname>.body — Nuclia's user-metadata schema
+  // doesn't have a `custom` field; arbitrary JSON or strings live as
+  // separate text fields on the resource. The app's ragClient.ts looks
+  // these up via the data.texts[name].body fallback path.
+  const texts = {};
+  for (const [k, v] of Object.entries(fields)) {
+    texts[k] = {
+      body: typeof v === 'string' ? v : JSON.stringify(v),
+      format: 'PLAIN',
+    };
+  }
   const r = await fetch(`${baseUrl}/resource/${id}`, {
     method: 'PATCH',
     headers,
-    body: JSON.stringify({
-      usermetadata: {
-        custom: Object.fromEntries(
-          Object.entries(fields).map(([k, v]) => [
-            k,
-            typeof v === 'string' ? v : JSON.stringify(v),
-          ]),
-        ),
-      },
-    }),
+    body: JSON.stringify({ texts }),
   });
   if (!r.ok) throw new Error(`PATCH ${slug}: ${r.status} ${r.statusText} — ${(await r.text()).slice(0, 240)}`);
 }

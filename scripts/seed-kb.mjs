@@ -48,7 +48,7 @@ async function main() {
       total += 1;
       const path = join(dir, file);
       const { frontmatter, body, title } = await parseDoc(path);
-      const slug = makeSlug(file);
+      const slug = makeSlug(ct, file);
       const labels = [
         { labelset: 'content_type', label: ct },
         ...(frontmatter.audience ? [{ labelset: 'audience', label: frontmatter.audience }] : []),
@@ -96,7 +96,12 @@ async function parseDoc(path) {
   return { frontmatter, body: m[2], title: basename(path, '.md') };
 }
 
-function makeSlug(filename) { return filename.replace(/\.md$/, '').toLowerCase(); }
+function makeSlug(contentType, filename) {
+  // Composite slug avoids collisions when the same base filename exists
+  // in multiple content_type folders (e.g., product/skyline-45l.md and
+  // gear_review/skyline-45l.md both want slug "skyline-45l").
+  return `${contentType}-${filename.replace(/\.md$/, '').toLowerCase()}`;
+}
 
 function parseArgs(argv) {
   const out = {};
