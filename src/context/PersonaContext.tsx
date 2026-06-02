@@ -1,4 +1,6 @@
-import { createContext, useContext, useMemo, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+
+const PERSONA_STORAGE_KEY = 'aurora.persona.active';
 
 export type Persona = 'sara' | 'mara';
 
@@ -37,10 +39,32 @@ interface PersonaValue {
 
 const PersonaContext = createContext<PersonaValue | undefined>(undefined);
 
+function readStoredPersona(): Persona {
+  if (typeof window === 'undefined') return 'sara';
+  try {
+    const raw = window.localStorage.getItem(PERSONA_STORAGE_KEY);
+    if (raw === 'sara' || raw === 'mara') return raw;
+  } catch {
+    // ignore — localStorage may be unavailable (private mode / SSR)
+  }
+  return 'sara';
+}
+
 export function PersonaProvider({ children }: { children: ReactNode }) {
-  const [activeId, setActive] = useState<Persona>('sara');
+  // Hydrate from localStorage on first render so the choice survives
+  // navigation, refresh, and StrictMode double-mounts.
+  const [activeId, setActiveId] = useState<Persona>(() => readStoredPersona());
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(PERSONA_STORAGE_KEY, activeId);
+    } catch {
+      // ignore write failures
+    }
+  }, [activeId]);
+
   const value = useMemo(
-    () => ({ active: PERSONAS[activeId], setActive }),
+    () => ({ active: PERSONAS[activeId], setActive: setActiveId }),
     [activeId],
   );
   return <PersonaContext.Provider value={value}>{children}</PersonaContext.Provider>;

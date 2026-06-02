@@ -3,14 +3,24 @@
 @tailwind utilities;
 
 @layer base {
-  body { @apply bg-sand-50 text-sand-900 antialiased; }
+  body {
+    @apply bg-sand-50 text-sand-900 antialiased font-sans leading-relaxed;
+    font-weight: 400;
+    font-variation-settings: 'opsz' 14;
+  }
   h1, h2 { @apply font-display tracking-tight; }
+  h1, .h-page {
+    font-variation-settings: 'opsz' 96;
+  }
+  h2, .h-section {
+    font-variation-settings: 'opsz' 72;
+  }
   h3 { @apply font-semibold; }
 }
 
 @layer components {
   .card {
-    @apply rounded-xl border border-sand-200 bg-white shadow-sm p-5;
+    @apply rounded-2xl border border-sand-200 bg-white p-5 shadow-aurora;
   }
   .badge {
     @apply inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium;
@@ -19,19 +29,193 @@
   .badge-rust { @apply border-rust-400 bg-rust-50 text-rust-600; }
   .badge-sand { @apply border-sand-300 bg-sand-100 text-sand-700; }
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full bg-alpine-500 px-5 py-2 text-sm font-medium text-white hover:bg-alpine-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors;
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-alpine-500 px-5 py-2 text-sm font-medium text-white shadow-sm hover:bg-alpine-600 hover:shadow-md active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-alpine-300 focus-visible:ring-offset-2 focus-visible:ring-offset-sand-50;
   }
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-sand-300 px-5 py-2 text-sm font-medium text-sand-800 hover:bg-sand-100 transition-colors;
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-sand-300 px-5 py-2 text-sm font-medium text-sand-800 hover:bg-sand-100 hover:border-alpine-400 active:scale-[0.98] transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-alpine-300 focus-visible:ring-offset-2 focus-visible:ring-offset-sand-50;
   }
   .chip {
-    @apply inline-flex items-center gap-1 rounded-full border border-sand-300 bg-white px-3 py-1 text-xs font-medium text-sand-700 hover:bg-sand-100 cursor-pointer transition-colors;
+    @apply inline-flex items-center gap-1 rounded-full border border-sand-300 bg-white px-3 py-1 text-xs font-medium text-sand-700 hover:border-alpine-400 hover:bg-alpine-50 hover:text-alpine-700 active:scale-[0.97] cursor-pointer transition-all duration-150;
   }
   .chip-active { @apply border-alpine-500 bg-alpine-50 text-alpine-600; }
   .input {
-    @apply w-full rounded-md border border-sand-300 bg-white px-3 py-2 text-sm text-sand-900 placeholder:text-sand-400 focus:border-alpine-500 focus:outline-none focus:ring-1 focus:ring-alpine-500;
+    @apply w-full rounded-xl border border-sand-300 bg-white px-3 py-2 text-sm text-sand-900 placeholder:text-sand-400 focus:border-alpine-500 focus:outline-none focus:ring-2 focus:ring-alpine-200 transition-colors;
   }
   .pill-cta {
-    @apply inline-flex items-center gap-1 rounded-full bg-rust-500 px-4 py-2 text-sm font-semibold text-white no-underline hover:bg-rust-600;
+    @apply inline-flex items-center gap-1 rounded-full bg-rust-500 px-4 py-2 text-sm font-semibold text-white shadow-sm no-underline hover:bg-rust-600 hover:shadow-md active:scale-[0.98] transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-rust-300 focus-visible:ring-offset-2 focus-visible:ring-offset-sand-50;
   }
+
+  /* page heading vocabulary */
+  .h-page    {
+    @apply font-display text-4xl text-sand-900 tracking-tight;
+    font-weight: 500;
+    line-height: 1.05;
+    font-feature-settings: 'ss01', 'ss02';
+    font-variation-settings: 'opsz' 96, 'SOFT' 50;
+  }
+  .h-page-sub{ @apply mt-2 max-w-3xl text-sm text-sand-700 leading-relaxed; }
+  .h-section {
+    @apply font-display text-2xl text-sand-900 tracking-tight;
+    font-weight: 500;
+    line-height: 1.15;
+    font-feature-settings: 'ss01', 'ss02';
+    font-variation-settings: 'opsz' 72, 'SOFT' 50;
+  }
+
+  /* Fraunces italic display accent — one highlighted phrase per page */
+  .h-accent-italic {
+    @apply font-display italic text-sand-900;
+    font-weight: 400;
+    font-feature-settings: 'ss01';
+    font-variation-settings: 'opsz' 144, 'SOFT' 100;
+  }
+
+  /* eyebrows — small uppercase label above a component or section */
+  .eyebrow      {
+    @apply text-[11px] font-semibold uppercase tracking-[0.14em] text-rust-500;
+    font-feature-settings: 'smcp', 'c2sc';
+  }
+  .eyebrow-ai   {
+    @apply inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-alpine-600;
+    font-feature-settings: 'smcp', 'c2sc';
+  }
+  .eyebrow-alpine {
+    @apply text-[11px] font-semibold uppercase tracking-[0.14em] text-alpine-600;
+    font-feature-settings: 'smcp', 'c2sc';
+  }
+
+  /* chips — for ms/sources/region/segment */
+  .chip-metric  { @apply inline-flex items-center gap-1 rounded-full border border-sand-200 bg-white px-2.5 py-0.5 text-[11px] font-medium text-sand-800 tabular; }
+  .chip-alpine  { @apply inline-flex items-center gap-1 rounded-full border border-alpine-300 bg-alpine-50 px-2.5 py-0.5 text-[11px] font-medium text-alpine-700; }
+  .chip-rust    { @apply inline-flex items-center gap-1 rounded-full border border-rust-400 bg-rust-50 px-2.5 py-0.5 text-[11px] font-medium text-rust-700; }
+
+  /* tabular — lock numbers to consistent-width glyphs for ledger-style rows */
+  .tabular { font-variant-numeric: tabular-nums; }
+
+  /* cards — replace bg-alpine-50 "island" pattern with this warm-with-alpine-accent */
+  .card-accent  { @apply rounded-2xl border border-alpine-300 bg-white p-5 shadow-aurora ring-1 ring-alpine-100/60; }
+
+  /* card title — serif display matching .h-section weight, distinct from body */
+  .card-title {
+    @apply font-display text-[19px] text-sand-900 leading-snug;
+    font-weight: 600;
+    font-feature-settings: 'ss01';
+    font-variation-settings: 'opsz' 72, 'SOFT' 50;
+  }
+  .card-body {
+    @apply text-sm text-sand-700 leading-relaxed;
+  }
+
+  /* interactive — unified hover/focus/press for cards, links, buttons */
+  .interactive {
+    @apply transition-all duration-150 ease-out cursor-pointer;
+    @apply hover:-translate-y-0.5 hover:border-alpine-400 hover:shadow-aurora-lift;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-alpine-500 focus-visible:ring-offset-2 focus-visible:ring-offset-sand-50;
+    @apply active:scale-[0.98] active:text-rust-800;
+  }
+
+  /* nav zones */
+  .nav-zone-controls { @apply flex items-center gap-2 rounded-full border border-sand-200 bg-white/80 px-1.5 py-1; }
+
+  /* sparkle ai dot — used inline before "AI" eyebrows */
+  .ai-dot { @apply inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-br from-alpine-500 to-rust-500; }
+
+  /* page containers — editorial vs app vs wide */
+  .container-editorial { @apply mx-auto w-full max-w-5xl px-4 py-16; }
+  .container-app       { @apply mx-auto w-full max-w-7xl px-4 py-10; }
+  .container-wide      { @apply mx-auto w-full max-w-screen-2xl px-4 py-10; }
+
+  /* hairline contour-line divider — topographic motif between sections */
+  .contour-divider {
+    @apply relative my-12 h-px w-full;
+    background-image: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(40, 107, 136, 0.18) 12%,
+      rgba(40, 107, 136, 0.28) 50%,
+      rgba(40, 107, 136, 0.18) 88%,
+      transparent 100%
+    );
+  }
+  .contour-divider::before,
+  .contour-divider::after {
+    content: '';
+    @apply absolute top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-alpine-300;
+  }
+  .contour-divider::before { left: 50%; transform: translate(-14px, -50%); }
+  .contour-divider::after  { left: 50%; transform: translate(8px, -50%); }
+
+  /* topographic dot pattern — faint section background */
+  .topo-dots {
+    background-image: radial-gradient(rgba(40, 107, 136, 0.10) 1px, transparent 1px);
+    background-size: 22px 22px;
+    background-position: 0 0;
+  }
+
+  /* Fraunces oversized index numerals — for ordered lists like 01 / 02 / 03 */
+  .ordinal-display {
+    @apply font-display text-rust-500 leading-none;
+    font-weight: 500;
+    font-feature-settings: 'lnum', 'tnum', 'ss01';
+    font-variation-settings: 'opsz' 144, 'SOFT' 50;
+    font-size: 2.5rem;
+  }
+
+  /* Pull-quote — Fraunces italic with rust-200 hairline */
+  .pull-quote {
+    @apply font-display italic text-sand-800 border-l-2 border-rust-200 pl-5 py-2;
+    font-weight: 400;
+    font-variation-settings: 'opsz' 96, 'SOFT' 100;
+  }
+
+  /* form-input vocabulary — used by SelectField / NumField / TextField in card forms.
+     Pairs the rounded-xl + sand-50 fill with the alpine focus state used app-wide. */
+  .input-form {
+    @apply w-full rounded-xl border border-sand-200 bg-sand-50 px-4 py-2.5 text-sm font-medium text-sand-900 placeholder:text-sand-400 hover:border-alpine-300 hover:bg-white focus:border-alpine-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-alpine-200 transition;
+  }
+  .select-form {
+    @apply input-form appearance-none pr-10 cursor-pointer;
+  }
+  /* Shimmer skeleton — reuse via .skeleton-shimmer on a sand-200 block. */
+  .skeleton-shimmer {
+    @apply relative overflow-hidden bg-sand-200;
+  }
+  .skeleton-shimmer::after {
+    content: '';
+    @apply absolute inset-0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.55) 50%, transparent 100%);
+    animation: aurora-shimmer 1.6s ease-in-out infinite;
+  }
+
+  /* Collapsible details — rotates the leading caret span when open.
+     Used by the "Show how this was built" pipeline drawer in FloatingChat. */
+  details > summary > span:first-child {
+    display: inline-block;
+    transition: transform 150ms;
+  }
+  details[open] > summary > span:first-child {
+    transform: rotate(90deg);
+  }
+}
+
+@keyframes aurora-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* AI summary typed-reveal — fades the first paragraph in token-by-token
+   feel without actually streaming. Used by .ai-typed on Storefront. */
+@keyframes ai-typed-reveal {
+  0%   { opacity: 0; transform: translateY(2px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.ai-typed {
+  animation: ai-typed-reveal 600ms ease-out both;
+}
+
+@layer utilities {
+  .fade-in-up { animation: fadeInUp 400ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+  .fade-in    { animation: fadeIn 300ms ease-out both; }
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn   { from { opacity: 0; } to { opacity: 1; } }
 }

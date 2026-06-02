@@ -2,7 +2,7 @@
  * buildPrefix — adds language / segment / resource-scope levers to a query.
  *
  * Pattern from Foundations Build 4. Reused verbatim here so the chassis
- * is ready when partners reskin Atlas Operations for a customer with
+ * is ready when partners reskin Aurora Concierge for a customer with
  * multilingual or multi-segment requirements.
  */
 

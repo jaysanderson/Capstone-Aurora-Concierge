@@ -1,8 +1,8 @@
 /**
  * Composite RAG — chain initial /ask → eval → /find → graph traversal → re-ask.
  *
- * Used by /incident-root-cause. The pipeline steps are exposed in the
- * return value so the UI can visualise each step's outcome.
+ * Used by /abandoned-cart (winback pipeline). The pipeline steps are exposed
+ * in the return value so the UI can visualise each step's outcome.
  */
 
 import { askSync, find, type Citation, type AskSyncResult } from './ragClient';
@@ -33,7 +33,11 @@ export interface CompositeOptions {
 
 const DEFAULT_CITATION_COUNT = 3;
 const DEFAULT_TOP_CONFIDENCE = 0.7;
-const PIPELINE_TIMEOUT_MS = 15_000;
+const PIPELINE_TIMEOUT_MS = 12_000;
+
+// Realistic dev URLs used by structured outputs (e.g. winback CTAs).
+// Surfaced from a single constant so demos never leak example.com TLDs.
+export const AURORA_SITE_ORIGIN = 'https://aurora-outfitters.com';
 
 export async function compositeAsk(opts: CompositeOptions): Promise<CompositeResult> {
   const startedAt = Date.now();
@@ -55,11 +59,17 @@ async function runPipeline(
     filters: opts.initialFilters,
     maxTokens: 500,
   });
+  const initialTop = topConfidence(initial);
   steps.push({
     step: 'initial-ask',
     label: 'Initial /ask',
     durationMs: Date.now() - initStart,
-    outcome: `${initial.citations.length} citations, top confidence ${formatScore(topConfidence(initial))}`,
+    // Confidence metric is only emitted when the response actually carries
+    // paragraph scores — otherwise it reads as "top confidence 0.00" and
+    // contradicts the cited output (Issue #4).
+    outcome: initialTop > 0
+      ? `${initial.citations.length} citations, top confidence ${formatScore(initialTop)}`
+      : `${initial.citations.length} citations retrieved`,
   });
 
   const evalStart = Date.now();
@@ -87,13 +97,26 @@ async function runPipeline(
     };
   }
 
+  // Parallelise /find broadening and graph traversal — they're independent
+  // lookups, so we don't pay the latency twice.
   const findStart = Date.now();
-  const broader = await find({
+  const graphStart = findStart;
+  const findPromise = find({
     query: opts.query,
-    pageSize: 8,
+    pageSize: 5,
     features: ['keyword', 'semantic'],
     show: ['basic', 'values', 'origin'],
   });
+  const graphPromise: Promise<GraphPath[]> =
+    opts.graphSeedEntities && opts.graphSeedEntities.length > 0
+      ? Promise.all(
+          opts.graphSeedEntities.map((seed) =>
+            queryPaths(seed).catch(() => [] as GraphPath[]),
+          ),
+        ).then((all) => dedupePaths(all.flat()).slice(0, 8))
+      : Promise.resolve([]);
+
+  const [broader, graphPaths] = await Promise.all([findPromise, graphPromise]);
   const additionalResources = Object.values(broader.resources);
   steps.push({
     step: 'find',
@@ -101,16 +124,7 @@ async function runPipeline(
     durationMs: Date.now() - findStart,
     outcome: `${additionalResources.length} additional candidates retrieved.`,
   });
-
-  let graphPaths: GraphPath[] = [];
-  const graphStart = Date.now();
   if (opts.graphSeedEntities && opts.graphSeedEntities.length > 0) {
-    const allPaths = await Promise.all(
-      opts.graphSeedEntities.map((seed) =>
-        queryPaths(seed).catch(() => [] as GraphPath[]),
-      ),
-    );
-    graphPaths = dedupePaths(allPaths.flat()).slice(0, 12);
     steps.push({
       step: 'graph',
       label: 'Graph traversal',
@@ -119,11 +133,13 @@ async function runPipeline(
     });
   }
 
+  // Re-ask with a tighter augmented context: top-K only, shorter excerpts.
+  // Cuts the re-ask round-trip dramatically without losing recall.
   const reaskStart = Date.now();
   const augmentedPrompt = buildAugmentedPrompt(opts.query, additionalResources, graphPaths);
   const reasked = await askSync({
     query: opts.query,
-    maxTokens: 700,
+    maxTokens: 500,
     promptConfig: {
       system:
         'You are an expert analyst with access to additional augmented context. ' +
@@ -131,14 +147,15 @@ async function runPipeline(
       user: augmentedPrompt,
     },
   });
+  const mergedCitations = mergeCitations(initial.citations, reasked.citations);
   steps.push({
     step: 're-ask',
     label: 'Re-ask with augmented context',
     durationMs: Date.now() - reaskStart,
-    outcome: `${reasked.citations.length} merged citations.`,
+    // Bind to merged citation count, not just the re-ask response —
+    // otherwise the metric shows 0 even when the initial pass found sources.
+    outcome: `${mergedCitations.length} merged citations`,
   });
-
-  const mergedCitations = mergeCitations(initial.citations, reasked.citations);
   return {
     answer: reasked.answer,
     citations: mergedCitations,
@@ -149,26 +166,35 @@ async function runPipeline(
 }
 
 function isConfident(r: AskSyncResult, minCitations: number, minTopConfidence: number): boolean {
-  return r.citations.length >= minCitations && topConfidence(r) >= minTopConfidence;
+  const cites = Array.isArray(r?.citations) ? r.citations : [];
+  return cites.length >= minCitations && topConfidence(r) >= minTopConfidence;
 }
 
 function topConfidence(r: AskSyncResult): number {
-  return r.citations.reduce((m, c) => Math.max(m, c.confidence ?? 0), 0);
+  const cites = Array.isArray(r?.citations) ? r.citations : [];
+  return cites.reduce((m, c) => Math.max(m, c?.confidence ?? 0), 0);
 }
 
-function mergeCitations(a: Citation[], b: Citation[]): Citation[] {
+function mergeCitations(a: Citation[] | undefined, b: Citation[] | undefined): Citation[] {
+  // Defensive: a malformed askSync response could return undefined here.
+  // Spreading undefined throws "o is not iterable" in minified bundles.
+  const left = Array.isArray(a) ? a : [];
+  const right = Array.isArray(b) ? b : [];
   const map = new Map<string, Citation>();
-  for (const c of [...a, ...b]) {
+  for (const c of [...left, ...right]) {
+    if (!c || !c.id) continue;
     const existing = map.get(c.id);
     if (!existing || (c.confidence ?? 0) > (existing.confidence ?? 0)) map.set(c.id, c);
   }
   return [...map.values()].sort((x, y) => (y.confidence ?? 0) - (x.confidence ?? 0));
 }
 
-function dedupePaths(paths: GraphPath[]): GraphPath[] {
+function dedupePaths(paths: GraphPath[] | undefined): GraphPath[] {
+  if (!Array.isArray(paths)) return [];
   const seen = new Set<string>();
   const out: GraphPath[] = [];
   for (const p of paths) {
+    if (!p?.source?.value || !p?.relation?.label || !p?.destination?.value) continue;
     const key = `${p.source.value}|${p.relation.label}|${p.destination.value}`;
     if (seen.has(key)) continue;
     seen.add(key);
@@ -177,21 +203,29 @@ function dedupePaths(paths: GraphPath[]): GraphPath[] {
   return out;
 }
 
+// Augmented prompt is intentionally tight: top-K resources, short excerpts,
+// truncated graph summary. The re-ask round-trip scales with payload size.
+const AUGMENT_TOP_K = 4;
+const AUGMENT_EXCERPT_CHARS = 140;
+const AUGMENT_MAX_GRAPH_PATHS = 8;
+
 function buildAugmentedPrompt(
   query: string,
   resources: Array<{ id: string; title: string; excerpt?: string }>,
   graphPaths: GraphPath[],
 ): string {
   const context = resources
-    .map((r, idx) => `Source ${idx + 1}: ${r.title}\n${(r.excerpt ?? '').slice(0, 240)}`)
+    .slice(0, AUGMENT_TOP_K)
+    .map((r, idx) => `Source ${idx + 1}: ${r.title}\n${(r.excerpt ?? '').slice(0, AUGMENT_EXCERPT_CHARS)}`)
     .join('\n\n');
   const graphSummary = graphPaths.length
     ? '\n\nGraph traversal results:\n' +
       graphPaths
+        .slice(0, AUGMENT_MAX_GRAPH_PATHS)
         .map((p) => `${p.source.value} -[${p.relation.label}]-> ${p.destination.value}`)
         .join('\n')
     : '';
-  return `Initial context: {context}\n\nAdditional context:\n${context}${graphSummary}\n\nQuestion: ${query}\n\nProvide a complete, well-cited answer using ALL the available context.`;
+  return `Additional context:\n${context}${graphSummary}\n\nQuestion: ${query}\n\nProvide a complete, well-cited answer using the context above.`;
 }
 
 function formatScore(score: number): string {
@@ -207,7 +241,7 @@ async function timeoutGuard(
     step: 're-ask',
     label: 'Timeout',
     durationMs: Date.now() - startedAt,
-    outcome: 'Pipeline exceeded 15s — returning partial result.',
+    outcome: 'Pipeline exceeded 12s — returning partial result.',
   });
   return {
     answer: 'Composite pipeline timed out. Partial result returned.',

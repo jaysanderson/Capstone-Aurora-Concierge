@@ -1,7 +1,10 @@
-import { Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { FloatingChat } from './components/FloatingChat';
+import { LearnHowThisWorks } from './components/LearnHowThisWorks';
+import { TopoBackdrop } from './components/TopoBackdrop';
 import { Landing } from './pages/Landing';
 import { Storefront } from './pages/Storefront';
 import { ForYou } from './pages/ForYou';
@@ -14,6 +17,21 @@ import { LanguageProvider } from './context/LanguageContext';
 import { ResidencyProvider } from './context/ResidencyContext';
 import { PersonaProvider } from './context/PersonaContext';
 import { loadEnv } from './lib/env';
+
+/**
+ * Reset scroll position to the top of the document on every route change.
+ * Without this, navigating to a new page can leave the viewport mid-scroll
+ * (clipped under the sticky header) because react-router keeps the previous
+ * scrollY by default. Runs after the route commits so the new page paints
+ * at scrollY=0.
+ */
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [pathname]);
+  return null;
+}
 
 export default function App() {
   let env;
@@ -32,9 +50,16 @@ export default function App() {
       <ByoLlmProvider initial={env.byoLlmDefault} available={env.byoLlmProviders}>
         <LanguageProvider initial={env.languages[0] ?? 'English'} available={env.languages}>
           <PersonaProvider>
+            <ScrollToTop />
             <div className="flex min-h-screen flex-col">
+              <div className="pointer-events-none fixed inset-0 -z-10 opacity-[0.025]" aria-hidden="true">
+                <TopoBackdrop />
+              </div>
               <Header />
-              <main className="flex-1">
+              {/* pb-24 reserves vertical space at the bottom so the fixed
+                  "Learn how this works" pill (bottom-left) never overlaps
+                  card body text on scroll. */}
+              <main id="main-content" tabIndex={-1} className="flex-1 pb-24 focus:outline-none">
                 <Routes>
                   <Route path="/" element={<Landing />} />
                   <Route path="/storefront" element={<Storefront />} />
@@ -48,6 +73,7 @@ export default function App() {
               </main>
               <Footer />
               <FloatingChat />
+              <LearnHowThisWorks />
             </div>
           </PersonaProvider>
         </LanguageProvider>
