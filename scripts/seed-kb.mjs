@@ -2,12 +2,35 @@
 /**
  * Aurora KB seeder.
  *
+ * NOTE — This script is OPTIONAL for ingest.
+ * --------------------------------------------------------------------
+ * The capstone's primary ingest path is **drag-and-drop**: partners
+ * drag the `corpus/content_type/` folder into the Nuclia dashboard's
+ * upload area and Nuclia auto-applies the `content_type` labelset
+ * from the folder names. No scripts, no env vars, no terminal.
+ *
+ * This script is the fallback for partners who:
+ *   - Want the full `/for-you` persona-flow demo, which also needs
+ *     `audience` and `region` labelsets applied (this script reads
+ *     those from frontmatter and PATCHes them onto each resource),
+ *   - Are scaling beyond the bundled 37 docs (e.g. after running
+ *     `progress-kb-use-case-generator` to produce a larger corpus), or
+ *   - Prefer a fully scripted ingest pipeline for CI/CD or repeatable
+ *     fresh-KB provisioning.
+ *
+ * For the citizen-developer no-code path (storefront + concierge +
+ * journey-graph work fully), ignore this script and read
+ * `corpus/README.md` Step 2.
+ *
+ * NOTE — `npm run populate:fields` is STILL required regardless of
+ * which ingest path you use. That script PATCHes the Aurora-specific
+ * custom fields (callToAction, searchResultDisplay, videoInfo) onto
+ * the hero products and ambassador videos — it can't be replaced by
+ * folder-name ingest. Run it after drag-drop or after this script.
+ * --------------------------------------------------------------------
+ *
  * Walks corpus/content_type/<ct>/*.md, parses YAML frontmatter,
  * ingests each file into the configured ARAG KB, applies labels.
- *
- * After running this, run `npm run populate:fields` to add the
- * Aurora-specific custom fields (callToAction, searchResultDisplay,
- * videoInfo) to the hero products.
  */
 
 import 'dotenv/config';

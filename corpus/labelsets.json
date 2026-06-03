@@ -1,7 +1,7 @@
 {
   "content_type": {
     "title": "Content type",
-    "description": "Editorial / structural category.",
+    "description": "Editorial / structural category. Auto-applied from the top-level corpus folder name when a partner drag-and-drops the corpus folder into the Nuclia dashboard.",
     "labels": [
       { "name": "product", "description": "Product pages." },
       { "name": "trail_guide", "description": "Trail-guide content." },
@@ -10,27 +10,6 @@
       { "name": "loyalty_benefit", "description": "Loyalty / Trail Club content." },
       { "name": "brand_story", "description": "Brand pillars and sustainability content." },
       { "name": "support", "description": "Support / policy content (returns, sizing, etc.)." }
-    ]
-  },
-  "audience": {
-    "title": "Audience",
-    "description": "Who the content is for.",
-    "labels": [
-      { "name": "shopper", "description": "Default — anonymous shopper." },
-      { "name": "trail_club_standard", "description": "Trail Club Standard members." },
-      { "name": "trail_club_plus", "description": "Trail Club Plus members and above." },
-      { "name": "trail_club_pro", "description": "Trail Club Pro members." },
-      { "name": "internal", "description": "Internal staff." }
-    ]
-  },
-  "region": {
-    "title": "Region",
-    "description": "Where the content applies.",
-    "labels": [
-      { "name": "noram", "description": "North America." },
-      { "name": "emea", "description": "Europe, Middle East, Africa." },
-      { "name": "apac", "description": "Asia-Pacific." },
-      { "name": "anz", "description": "Australia & New Zealand." }
     ]
   }
 }
