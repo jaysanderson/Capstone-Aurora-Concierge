@@ -3,9 +3,9 @@ import { NavLink, useLocation } from 'react-router-dom';
 import AuroraLogo from './AuroraLogo';
 import {
   PersonaChip,
-  LanguageChip,
-  RegionBadge,
-  ByoLlmChip,
+  LanguageOptions,
+  ResidencyOptions,
+  ByoLlmOptions,
 } from './NavControls';
 
 const NAV = [
@@ -169,22 +169,28 @@ export function Header() {
               {settingsOpen && (
                 <div
                   role="menu"
-                  className="absolute right-0 z-50 mt-2 w-72 overflow-hidden rounded-2xl border border-sand-200 bg-white p-4 shadow-xl"
+                  className="absolute right-0 z-50 mt-2 w-72 rounded-2xl border border-sand-200 bg-white p-4 shadow-xl"
                 >
-                  <div className="flex flex-col gap-3">
-                    <div className="flex items-center justify-between gap-3">
+                  <div className="flex flex-col gap-4">
+                    <div>
                       <span className="eyebrow-alpine">Language</span>
-                      <LanguageChip />
+                      <div className="mt-2">
+                        <LanguageOptions />
+                      </div>
                     </div>
                     <span className="h-px bg-sand-200" aria-hidden="true" />
-                    <div className="flex items-center justify-between gap-3">
+                    <div>
                       <span className="eyebrow-alpine">Data residency</span>
-                      <RegionBadge />
+                      <div className="mt-2">
+                        <ResidencyOptions />
+                      </div>
                     </div>
                     <span className="h-px bg-sand-200" aria-hidden="true" />
-                    <div className="flex items-center justify-between gap-3">
+                    <div>
                       <span className="eyebrow-alpine">AI model</span>
-                      <ByoLlmChip />
+                      <div className="mt-2">
+                        <ByoLlmOptions />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -237,18 +243,24 @@ export function Header() {
               <div className="eyebrow-alpine mb-2">Persona</div>
               <PersonaChip />
             </div>
-            <div className="mt-4 flex flex-col gap-3 border-t border-sand-200 pt-4">
-              <div className="flex items-center justify-between gap-3">
+            <div className="mt-4 flex flex-col gap-4 border-t border-sand-200 pt-4">
+              <div>
                 <span className="eyebrow-alpine">Language</span>
-                <LanguageChip />
+                <div className="mt-2">
+                  <LanguageOptions />
+                </div>
               </div>
-              <div className="flex items-center justify-between gap-3">
+              <div>
                 <span className="eyebrow-alpine">Data residency</span>
-                <RegionBadge />
+                <div className="mt-2">
+                  <ResidencyOptions />
+                </div>
               </div>
-              <div className="flex items-center justify-between gap-3">
+              <div>
                 <span className="eyebrow-alpine">AI model</span>
-                <ByoLlmChip />
+                <div className="mt-2">
+                  <ByoLlmOptions />
+                </div>
               </div>
             </div>
           </div>
