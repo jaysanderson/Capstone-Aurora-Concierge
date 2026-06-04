@@ -36,22 +36,25 @@ The corpus ships pre-organised by content type. Each subfolder name under `corpu
 ```
 corpus/
 └── content_type/
-    ├── ambassador_video/  (5 docs)
-    ├── brand_story/       (4 docs)
-    ├── gear_review/       (6 docs)
-    ├── loyalty_benefit/   (4 docs)
-    ├── product/           (7 docs)
-    ├── support/           (4 docs)
-    └── trail_guide/       (7 docs)
+    ├── ambassador_video/  (5 md + 2 mp4)
+    ├── brand_story/       (4 md + 1 docx + 1 pptx)
+    ├── gear_review/       (6 md + 1 pdf)
+    ├── loyalty_benefit/   (4 md + 1 pptx)
+    ├── podcast/           (2 mp3)
+    ├── product/           (7 md)
+    ├── support/           (4 md + 1 pdf + 1 docx)
+    └── trail_guide/       (7 md)
 ```
+
+**37 markdown + 10 binary files = 47 total resources across 8 content types.** The 10 binary files are 2 PDFs, 2 DOCX, 2 PPTX, 2 MP3, and 2 MP4 — deliberately mixed-format so the sandbox reflects what a partner faces in production. Nuclia auto-OCRs the PDFs, extracts text from the DOCX and PPTX, and transcribes the MP3 + MP4 with its Whisper integration at ingest time. No format-specific configuration is needed; the Upload folder feature handles each format natively.
 
 In the Nuclia dashboard:
 
 1. Open your Knowledge Box → **Resources** → **Upload** → **Upload folder** (exact wording varies; look for an "Upload folder" option, not the single-file uploader).
 2. Pick the **`corpus/content_type/`** folder on your machine.
-3. Enable the **"Use folder names as label names"** option (the exact label varies by tenant; look for a checkbox or toggle that says "folder names as labels" or "auto-label from folders"). With that enabled, Nuclia takes the parent folder name (`content_type`) as the labelset name and the subfolder names (`product`, `trail_guide`, etc.) as the label values applied to every document inside.
-4. Confirm and start the upload. Nuclia processes all 37 documents.
-5. Wait for ingest to complete. The dashboard's progress indicator shows resource count climbing.
+3. Enable the **"Use folder names as label names"** option (the exact label varies by tenant; look for a checkbox or toggle that says "folder names as labels" or "auto-label from folders"). With that enabled, Nuclia takes the parent folder name (`content_type`) as the labelset name and the subfolder names (`product`, `trail_guide`, `podcast`, etc.) as the label values applied to every document inside.
+4. Confirm and start the upload. Nuclia processes all 47 documents.
+5. Wait for ingest to complete. The dashboard's progress indicator shows resource count climbing. The MP4 and MP3 files take longer than the text formats because Nuclia transcribes them at ingest — the transcript becomes the searchable text content.
 
 That's it — for the storefront, concierge, and journey-graph surfaces. No scripts, no env vars, no terminal commands.
 
