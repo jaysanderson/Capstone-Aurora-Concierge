@@ -222,7 +222,7 @@ export function ByoLlmChip() {
         title="Generative model provider"
         className="flex items-center gap-1.5 rounded-full border border-sand-200 bg-white px-3 py-1.5 text-xs font-medium text-alpine-700 transition hover:border-alpine-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-alpine-400 focus-visible:ring-offset-1 focus-visible:ring-offset-sand-50"
       >
-        <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-br from-alpine-500 to-rust-500" aria-hidden="true" />
+        <span className="h-1.5 w-1.5 rounded-full bg-alpine-500" aria-hidden="true" />
         <span>{activeLabel}</span>
         <ChevronDown className="h-2 w-2 text-sand-600" open={open} />
       </button>
@@ -246,7 +246,7 @@ export function ByoLlmChip() {
                 isActive ? 'bg-sand-50 font-semibold' : ''
               }`}
             >
-              <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-br from-alpine-500 to-rust-500" aria-hidden="true" />
+              <span className="h-1.5 w-1.5 rounded-full bg-alpine-500" aria-hidden="true" />
               <span className="text-sand-900">{PROVIDER_LABELS[p]}</span>
             </button>
           );

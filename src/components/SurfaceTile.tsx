@@ -87,7 +87,7 @@ function EditorialHeader({
   title: string;
 }) {
   return (
-    <div className="relative h-32 w-full overflow-hidden bg-gradient-to-br from-alpine-700 via-alpine-500 to-rust-300">
+    <div className="relative h-32 w-full overflow-hidden bg-gradient-to-br from-alpine-700 to-alpine-500">
       {/* Topographic contour wash */}
       <svg
         viewBox="0 0 400 160"

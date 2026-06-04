@@ -3,12 +3,35 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/aurora-mark.svg" />
+    <link rel="apple-touch-icon" href="/aurora-mark.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#194256" />
     <title>Aurora Concierge · Progress Agentic RAG</title>
-    <meta name="description" content="Aurora Outfitters — built for the worst weather. Trail-tested by experts. Repairable for life. Carbon-negative by 2030." />
+    <meta name="description" content="One knowledge box, six customer surfaces — agentic search, concierge, personalization, journey graph and winback, all citing the same grounded source. The CX reference build for Progress Agentic RAG." />
+    <link rel="canonical" href="https://capstone-aurora-concierge.fly.dev/" />
+
+    <!-- Open Graph / social share -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Aurora Concierge" />
+    <meta property="og:title" content="Aurora Concierge · Progress Agentic RAG" />
+    <meta property="og:description" content="One knowledge box, six customer surfaces — agentic search, concierge, personalization, journey graph and winback, all citing the same grounded source." />
+    <meta property="og:url" content="https://capstone-aurora-concierge.fly.dev/" />
+    <meta property="og:image" content="https://capstone-aurora-concierge.fly.dev/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Aurora Concierge — agentic retrieval, grounded in your knowledge." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Aurora Concierge · Progress Agentic RAG" />
+    <meta name="twitter:description" content="One knowledge box, six customer surfaces, all citing the same grounded source." />
+    <meta name="twitter:image" content="https://capstone-aurora-concierge.fly.dev/og-image.png" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <!-- Runtime config: generated from env / Fly secrets at container startup.
+         Must load before the app module (this classic script runs ahead of the
+         deferred ES module below). See src/lib/env.ts + scripts/aurora-runtime-config.sh -->
+    <script src="/config.js"></script>
   </head>
   <body class="min-h-screen bg-sand-50 text-sand-900">
     <div id="root"></div>
