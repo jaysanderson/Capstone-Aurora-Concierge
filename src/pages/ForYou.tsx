@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { find, type ResourceHit } from '../lib/ragClient';
 import { sanitizeExcerpt, ctaHrefFor } from '../lib/sanitizeExcerpt';
 import { usePersona } from '../context/PersonaContext';
@@ -243,14 +244,12 @@ function SectionLayout({ layout, hits }: { layout: Layout; hits: ResourceHit[] }
           {first.excerpt && (
             <p className="mt-2 text-sm text-sand-700">{first.excerpt}</p>
           )}
-          <a
-            href={bannerHref}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-4 inline-block rounded-full bg-rust-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-150 hover:bg-rust-600 hover:shadow-md active:scale-[0.98]"
+          <Link
+            to={bannerHref}
+            className="mt-4 inline-block rounded-full bg-rust-500 px-5 py-2.5 text-sm font-semibold text-white no-underline shadow-sm transition-all duration-150 hover:bg-rust-600 hover:shadow-md active:scale-[0.98]"
           >
             {first.searchResultDisplay?.ctaLabel ?? first.callToAction ?? 'Explore Trail Club'}
-          </a>
+          </Link>
         </div>
       </div>
     );

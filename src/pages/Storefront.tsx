@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { find, askSync, type FindResult, type AskSyncResult, type Citation } from '../lib/ragClient';
 import { StorefrontCard } from '../components/StorefrontCard';
 import { PersonaToggle } from '../components/PersonaToggle';
@@ -419,20 +420,18 @@ function AiSummaryCard({
               {citations.slice(0, 6).map((c) => {
                 const href = ctaHrefFor({ title: c.title, fallbackId: c.id });
                 return (
-                  <a
+                  <Link
                     key={c.id}
-                    href={href}
-                    target="_blank"
-                    rel="noreferrer"
+                    to={href}
                     title={c.excerpt ?? c.title}
-                    className="inline-flex max-w-[280px] items-center gap-1.5 truncate rounded-full border border-alpine-300 bg-alpine-50/70 px-2.5 py-1 text-[11px] font-medium text-alpine-700 transition hover:border-alpine-500 hover:bg-alpine-50 hover:shadow-sm"
+                    className="inline-flex max-w-[280px] items-center gap-1.5 truncate rounded-full border border-alpine-300 bg-alpine-50/70 px-2.5 py-1 text-[11px] font-medium text-alpine-700 no-underline transition hover:border-alpine-500 hover:bg-alpine-50 hover:shadow-sm"
                   >
                     <svg viewBox="0 0 16 16" className="h-3 w-3 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
                       <path d="M4 3h6l2 2v8H4z" strokeLinejoin="round" />
                       <path d="M6 7h4M6 10h3" strokeLinecap="round" />
                     </svg>
                     <span className="truncate">{c.title}</span>
-                  </a>
+                  </Link>
                 );
               })}
             </div>

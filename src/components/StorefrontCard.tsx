@@ -1,4 +1,5 @@
 import type { SVGProps } from 'react';
+import { Link } from 'react-router-dom';
 import type { ResourceHit } from '../lib/ragClient';
 import { sanitizeExcerpt, ctaHrefFor } from '../lib/sanitizeExcerpt';
 
@@ -195,22 +196,15 @@ export function StorefrontCard({
         )}
 
         <div className="mt-auto pt-2">
-          {/* CTAs render as buttons, not anchors. aurora-outfitters.com is a
-              brand-fiction host — clicking through landed a real CMO on a
-              browser error page during testing. The button still LOOKS like
-              a primary CTA but its onClick is a no-op (a brief toast via
-              the title attr) so the demo flow never breaks. The href is
-              still computed via ctaHrefFor for any future place that wants
-              to wire a copy-link / share affordance. */}
-          <button
-            type="button"
-            title={`Demo CTA — would route to ${ctaHref} in production`}
-            onClick={(e) => e.preventDefault()}
-            className="mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-full bg-rust-500 px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-rust-600 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rust-300"
+          {/* CTA links to the internal resource viewer (/r/:id), which renders
+              the document. ctaHrefFor now returns that internal route. */}
+          <Link
+            to={ctaHref}
+            className="mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-full bg-rust-500 px-4 py-2.5 text-center text-sm font-semibold text-white no-underline transition hover:bg-rust-600 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rust-300"
           >
             <span>{cta}</span>
             <ChevronRight aria-hidden="true" />
-          </button>
+          </Link>
         </div>
       </div>
     </article>

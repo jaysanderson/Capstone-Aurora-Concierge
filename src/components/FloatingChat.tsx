@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { streamAsk, type Citation } from '../lib/ragClient';
 import { buildPrefix } from '../lib/buildPrefix';
 import { ctaHrefFor } from '../lib/sanitizeExcerpt';
@@ -18,9 +19,9 @@ const SHOPPER_PROMPT = {
     'You are an outdoor-gear concierge for Aurora Outfitters. STRICT RULES: ' +
     '(1) Maximum 3 sentences. ' +
     '(2) End with ONE call-to-action picked from the most-relevant resource\'s callToAction field. ' +
-    '(3) Render the call-to-action as a markdown link, e.g. [Get the Aurora Helios →](https://aurora-outfitters.com/products/helios). ' +
-    'Use a full https:// URL. Do NOT use relative paths or .md filenames. ' +
-    '(4) STOP after the link. ' +
+    '(3) Write the call-to-action as a short plain-text phrase, e.g. "Get the Aurora Helios →". ' +
+    'Do NOT include any URL, link, markdown link, slug, hostname, or .md filename — the app adds the source links itself. ' +
+    '(4) STOP after the call-to-action. ' +
     '(5) Do NOT preface the answer with meta-narration like "Based on the context provided", "According to the retrieved documents", or "The provided sources indicate". Open directly with the substantive answer.',
   user: 'Context: {context}\n\nQuestion: {question}',
 };
@@ -362,20 +363,18 @@ function TurnView({
               const cleanTitle = stripMarkdownHash(c.title);
               const href = ctaHrefFor({ title: cleanTitle, fallbackId: c.id });
               return (
-                <a
+                <Link
                   key={`${c.id}-${i}`}
-                  href={href}
-                  target="_blank"
-                  rel="noreferrer noopener"
+                  to={href}
                   title={c.title}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-alpine-300 bg-alpine-50/70 px-2.5 py-1 text-[11px] font-medium text-alpine-700 max-w-[260px] truncate transition hover:border-alpine-500 hover:bg-alpine-50 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-alpine-300"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-alpine-300 bg-alpine-50/70 px-2.5 py-1 text-[11px] font-medium text-alpine-700 max-w-[260px] truncate no-underline transition hover:border-alpine-500 hover:bg-alpine-50 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-alpine-300"
                 >
                   <svg viewBox="0 0 16 16" className="h-3 w-3 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
                     <path d="M4 3h6l2 2v8H4z" strokeLinejoin="round" />
                     <path d="M6 7h4M6 10h3" strokeLinecap="round" />
                   </svg>
                   <span className="truncate">{cleanTitle}</span>
-                </a>
+                </Link>
               );
             })}
           </div>
@@ -502,26 +501,29 @@ function formatAssistantHtml(text: string, voice: 'shopper' | 'member'): string 
   }
   if (lastIndex < text.length) parts.push({ kind: 'text', value: text.slice(lastIndex) });
 
+  // The LLM is instructed not to emit links any more; the real "view source"
+  // affordance is the internal citation pills below the message. If a link
+  // still slips through, render its LABEL as text — never a (dead) anchor.
   if (voice === 'shopper') {
-    // Keep text up to (and including) the first link as a pill CTA. Drop the rest.
+    // Keep text up to (and including) the first CTA. Drop the rest.
     const out: string[] = [];
-    let usedLink = false;
+    let usedCta = false;
     for (const p of parts) {
       if (p.kind === 'text') {
         out.push(renderInlineText(p.value));
-      } else if (!usedLink) {
-        out.push(`<a href="${escapeAttr(normaliseHref(p.url))}" class="pill-cta">${escapeHtml(p.label)} →</a>`);
-        usedLink = true;
+      } else if (!usedCta) {
+        out.push(`<span class="font-semibold text-rust-600">${escapeHtml(p.label)}</span>`);
+        usedCta = true;
         break;
       }
     }
     return out.join('');
   }
 
-  // member: render all links inline
+  // member: render link labels inline as plain emphasised text.
   return parts.map((p) => {
     if (p.kind === 'text') return renderInlineText(p.value);
-    return `<a href="${escapeAttr(normaliseHref(p.url))}" class="text-alpine-600 underline">${escapeHtml(p.label)}</a>`;
+    return `<strong>${escapeHtml(p.label)}</strong>`;
   }).join('');
 }
 
@@ -541,14 +543,3 @@ function escapeHtml(s: string): string {
     .replace(/'/g, '&#39;');
 }
 
-function escapeAttr(s: string): string {
-  return escapeHtml(s);
-}
-
-function normaliseHref(url: string): string {
-  const trimmed = url.trim();
-  if (/^https?:\/\//i.test(trimmed)) return trimmed;
-  // Relative paths (e.g., a markdown filename the LLM invented) → '#' so
-  // the pill stays interactive-looking without navigating away.
-  return '#';
-}

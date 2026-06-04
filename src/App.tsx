@@ -12,6 +12,7 @@ import { Concierge } from './pages/Concierge';
 import { Personalize } from './pages/Personalize';
 import { JourneyGraph } from './pages/JourneyGraph';
 import { AbandonedCart } from './pages/AbandonedCart';
+import { ResourceViewer } from './pages/ResourceViewer';
 import { NotFound } from './pages/NotFound';
 import { ByoLlmProvider } from './context/ByoLlmContext';
 import { LanguageProvider } from './context/LanguageContext';
@@ -69,6 +70,7 @@ export default function App() {
                   <Route path="/personalize" element={<Personalize />} />
                   <Route path="/journey-graph" element={<JourneyGraph />} />
                   <Route path="/abandoned-cart" element={<AbandonedCart />} />
+                  <Route path="/r/:id" element={<ResourceViewer />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </main>

@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { askForJson, type AnswerJsonSchema } from '../lib/askForJson';
+import { resourcePath } from '../lib/sanitizeExcerpt';
 import { PersonaToggle } from '../components/PersonaToggle';
 import { LoadingSpinner, ErrorPanel } from '../components/States';
 
@@ -240,8 +242,8 @@ function CopyIcon({ className = '' }: { className?: string }) {
 
 function resourceHref(id: unknown): string | null {
   if (typeof id !== 'string' || id.trim().length === 0) return null;
-  // Deterministic client-side link reconstruction. KB callToActions resolve to /p/{id}.
-  return `/p/${id.trim()}`;
+  // Deterministic client-side link reconstruction → internal resource viewer.
+  return resourcePath(id.trim());
 }
 
 function isDev(): boolean {
@@ -739,9 +741,9 @@ function CitationLink({ id }: { id: unknown }) {
   const href = resourceHref(id);
   if (!href) return null;
   return (
-    <a href={href} className="mt-2 inline-block text-[11px] text-alpine-600 underline" target="_blank" rel="noreferrer">
+    <Link to={href} className="mt-2 inline-block text-[11px] text-alpine-600 underline">
       source: {String(id)}
-    </a>
+    </Link>
   );
 }
 
@@ -749,9 +751,9 @@ function CitationInline({ id }: { id: unknown }) {
   const href = resourceHref(id);
   if (!href) return null;
   return (
-    <a href={href} className="ml-2 text-alpine-600 underline" target="_blank" rel="noreferrer">
+    <Link to={href} className="ml-2 text-alpine-600 underline">
       source: {String(id)}
-    </a>
+    </Link>
   );
 }
 

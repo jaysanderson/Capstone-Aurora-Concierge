@@ -206,6 +206,64 @@ export async function find(opts: FindOptions): Promise<FindResult> {
   };
 }
 
+/**
+ * Fetch a single KB resource by id and return its full Markdown document.
+ * Backs the internal resource viewer (/r/:id). The body lives at
+ * data.texts.body.value.body (verified against the live KB).
+ */
+export interface ResourceDoc {
+  id: string;
+  title: string;
+  body: string; // markdown, frontmatter + duplicate H1 stripped
+  contentType?: string;
+  classifications: Array<{ labelset: string; label: string }>;
+}
+
+export class ResourceNotFoundError extends Error {
+  constructor(id: string) {
+    super(`Resource ${id} not found`);
+    this.name = 'ResourceNotFoundError';
+  }
+}
+
+export async function getResource(id: string): Promise<ResourceDoc> {
+  const env = loadEnv();
+  const response = await fetch(
+    `${kbBaseUrl(env)}/resource/${encodeURIComponent(id)}?show=basic&show=values`,
+    { headers: authHeaders(env) },
+  );
+  if (response.status === 404) throw new ResourceNotFoundError(id);
+  if (!response.ok) {
+    throw new Error(`ARAG /resource returned ${response.status} ${response.statusText}`);
+  }
+  const raw = (await response.json()) as Record<string, unknown>;
+  const title = String((raw.title as string) ?? '').replace(/^#+\s*/, '').trim();
+  const classifications = extractClassifications(raw);
+  const contentType = classifications.find((c) => c.labelset === 'content_type')?.label;
+  return {
+    id,
+    title: title || 'Untitled resource',
+    body: extractBody(raw, title),
+    contentType,
+    classifications,
+  };
+}
+
+function extractBody(raw: Record<string, unknown>, title: string): string {
+  const texts =
+    ((raw as { data?: { texts?: Record<string, { value?: { body?: unknown } }> } })?.data?.texts) ?? {};
+  let body = (texts.body?.value?.body as string | undefined) ?? '';
+  if (typeof body !== 'string') return '';
+  // Strip YAML frontmatter (same shape as extractExcerpt) and a leading BOM.
+  body = body.replace(/^﻿?/, '').replace(/^\s*---\n[\s\S]*?\n---\n/, '').trimStart();
+  // Drop a leading H1 that just repeats the resource title (no double heading).
+  if (title) {
+    const norm = (s: string) => s.toLowerCase().replace(/\s+/g, ' ').trim();
+    body = body.replace(/^#\s+(.+?)\s*\n+/, (m, h1: string) => (norm(h1) === norm(title) ? '' : m));
+  }
+  return body.trim();
+}
+
 /* ---- helpers ---- */
 
 function extractCitations(retrievalResults: Record<string, unknown> | undefined): Citation[] {

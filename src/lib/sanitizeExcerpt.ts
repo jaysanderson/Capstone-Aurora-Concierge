@@ -81,29 +81,26 @@ export function sanitizeExcerpt(
 }
 
 /**
- * Build a believable Aurora storefront/content URL for a resource so CTAs in
- * front of a CMO go SOMEWHERE (a new tab on the brand-fiction site) instead
- * of href="#". Returns a stable URL derived from content type + cleaned title.
+ * The internal route that renders a KB resource's document to the screen.
+ * Single source of truth — every resource/citation link goes through here.
+ * `/r/:id` is handled by src/pages/ResourceViewer.tsx.
+ */
+export function resourcePath(id: string | undefined | null): string {
+  const clean = (id ?? '').toString().trim();
+  return clean ? `/r/${encodeURIComponent(clean)}` : '/storefront';
+}
+
+/**
+ * Resolve a resource link target. Previously this built believable but DEAD
+ * URLs on the brand-fiction host (aurora-outfitters.com/...). It now returns
+ * the INTERNAL resource-viewer route so clicks land on a real page that
+ * renders the document. Callers pass the KB resource id as `fallbackId`
+ * (which is what `ResourceHit.id` / `Citation.id` already are).
  */
 export function ctaHrefFor(opts: {
   contentType?: string;
   title?: string;
   fallbackId?: string;
 }): string {
-  const origin = 'https://aurora-outfitters.com';
-  const slugSource = (opts.title ?? opts.fallbackId ?? '').replace(/^#+\s*/, '').trim();
-  const slug = slugSource
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, 60) || 'item';
-  switch (opts.contentType) {
-    case 'product':           return `${origin}/products/${slug}`;
-    case 'trail_guide':       return `${origin}/trails/${slug}`;
-    case 'gear_review':       return `${origin}/reviews/${slug}`;
-    case 'ambassador_video':  return `${origin}/ambassadors/${slug}`;
-    case 'loyalty_benefit':   return `${origin}/trail-club/${slug}`;
-    case 'brand_pillar':      return `${origin}/our-promise/${slug}`;
-    default:                  return `${origin}/discover/${slug}`;
-  }
+  return resourcePath(opts.fallbackId);
 }
