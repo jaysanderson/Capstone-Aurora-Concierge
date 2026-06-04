@@ -256,6 +256,93 @@ export function ByoLlmChip() {
   );
 }
 
+/* -------------------------------------------------------------------------
+ * Inline option controls — used inside the Settings panel (and the mobile
+ * sheet). These replace the floating chip+sub-popover pattern in that context:
+ * a popover opening INSIDE the settings popover was a card-in-card-in-card that
+ * got clipped by the panel's overflow and overlapped the rows below. Inline
+ * radio pills show every option at once, grouped by label + whitespace.
+ * ---------------------------------------------------------------------- */
+
+function OptionPill({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      role="radio"
+      aria-checked={active}
+      onClick={onClick}
+      className={`rounded-full border px-3 py-1 text-xs font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-alpine-400 focus-visible:ring-offset-1 focus-visible:ring-offset-white ${
+        active
+          ? 'border-alpine-500 bg-alpine-50 text-alpine-700'
+          : 'border-sand-200 bg-white text-sand-700 hover:border-alpine-300 hover:text-alpine-700'
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
+
+export function LanguageOptions() {
+  const language = useLanguage();
+  return (
+    <div role="radiogroup" aria-label="Language" className="flex flex-wrap gap-1.5">
+      {language.available.map((code) => (
+        <OptionPill
+          key={code}
+          active={code === language.active}
+          onClick={() => language.set(code)}
+        >
+          {code}
+        </OptionPill>
+      ))}
+    </div>
+  );
+}
+
+export function ResidencyOptions() {
+  const residency = useResidency();
+  const regions: Array<'EU' | 'US'> = ['EU', 'US'];
+  return (
+    <div role="radiogroup" aria-label="Data residency" className="flex gap-1.5">
+      {regions.map((r) => (
+        <OptionPill
+          key={r}
+          active={residency.region === r}
+          onClick={() => residency.set(r)}
+        >
+          <GlobeGlyph className="mr-1 inline-block h-3 w-3 align-middle text-alpine-600" />
+          {r}
+        </OptionPill>
+      ))}
+    </div>
+  );
+}
+
+export function ByoLlmOptions() {
+  const byo = useByoLlm();
+  return (
+    <div role="radiogroup" aria-label="AI model" className="flex flex-wrap gap-1.5">
+      {byo.available.map((p) => (
+        <OptionPill
+          key={p}
+          active={p === byo.active}
+          onClick={() => byo.set(p as ByoLlmProvider)}
+        >
+          {PROVIDER_LABELS[p]}
+        </OptionPill>
+      ))}
+    </div>
+  );
+}
+
 export function RegionBadge() {
   const residency = useResidency();
   const next = residency.region === 'EU' ? 'US' : 'EU';
