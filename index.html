@@ -28,6 +28,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <!-- Runtime config: generated from env / Fly secrets at container startup.
+         Must load before the app module (this classic script runs ahead of the
+         deferred ES module below). See src/lib/env.ts + scripts/aurora-runtime-config.sh -->
+    <script src="/config.js"></script>
   </head>
   <body class="min-h-screen bg-sand-50 text-sand-900">
     <div id="root"></div>
