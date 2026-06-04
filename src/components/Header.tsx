@@ -1,12 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import AuroraLogo from './AuroraLogo';
-import {
-  PersonaChip,
-  LanguageOptions,
-  ResidencyOptions,
-  ByoLlmOptions,
-} from './NavControls';
+import { PersonaChip, LanguageOptions } from './NavControls';
 
 const NAV = [
   { to: '/', label: 'Aurora' },
@@ -153,14 +148,14 @@ export function Header() {
               <PersonaChip />
             </div>
 
-            {/* Settings gear consolidates Language / Region / Model. */}
+            {/* Settings gear — language selection. */}
             <div ref={settingsRef} className="relative hidden sm:block">
               <button
                 type="button"
                 onClick={() => setSettingsOpen((v) => !v)}
                 aria-haspopup="menu"
                 aria-expanded={settingsOpen}
-                aria-label="Settings: language, region, AI model"
+                aria-label="Settings: language"
                 className="flex items-center gap-1.5 rounded-full border border-sand-200 bg-white px-2.5 py-1.5 text-xs font-medium text-sand-700 transition hover:border-alpine-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-alpine-400 focus-visible:ring-offset-1 focus-visible:ring-offset-sand-50"
               >
                 <GearIcon />
@@ -171,26 +166,10 @@ export function Header() {
                   role="menu"
                   className="absolute right-0 z-50 mt-2 w-72 rounded-2xl border border-sand-200 bg-white p-4 shadow-xl"
                 >
-                  <div className="flex flex-col gap-4">
-                    <div>
-                      <span className="eyebrow-alpine">Language</span>
-                      <div className="mt-2">
-                        <LanguageOptions />
-                      </div>
-                    </div>
-                    <span className="h-px bg-sand-200" aria-hidden="true" />
-                    <div>
-                      <span className="eyebrow-alpine">Data residency</span>
-                      <div className="mt-2">
-                        <ResidencyOptions />
-                      </div>
-                    </div>
-                    <span className="h-px bg-sand-200" aria-hidden="true" />
-                    <div>
-                      <span className="eyebrow-alpine">AI model</span>
-                      <div className="mt-2">
-                        <ByoLlmOptions />
-                      </div>
+                  <div>
+                    <span className="eyebrow-alpine">Language</span>
+                    <div className="mt-2">
+                      <LanguageOptions />
                     </div>
                   </div>
                 </div>
@@ -243,24 +222,10 @@ export function Header() {
               <div className="eyebrow-alpine mb-2">Persona</div>
               <PersonaChip />
             </div>
-            <div className="mt-4 flex flex-col gap-4 border-t border-sand-200 pt-4">
-              <div>
-                <span className="eyebrow-alpine">Language</span>
-                <div className="mt-2">
-                  <LanguageOptions />
-                </div>
-              </div>
-              <div>
-                <span className="eyebrow-alpine">Data residency</span>
-                <div className="mt-2">
-                  <ResidencyOptions />
-                </div>
-              </div>
-              <div>
-                <span className="eyebrow-alpine">AI model</span>
-                <div className="mt-2">
-                  <ByoLlmOptions />
-                </div>
+            <div className="mt-4 border-t border-sand-200 pt-4">
+              <span className="eyebrow-alpine">Language</span>
+              <div className="mt-2">
+                <LanguageOptions />
               </div>
             </div>
           </div>
