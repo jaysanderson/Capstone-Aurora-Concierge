@@ -117,8 +117,9 @@
   /* nav zones */
   .nav-zone-controls { @apply flex items-center gap-2 rounded-full border border-sand-200 bg-white/80 px-1.5 py-1; }
 
-  /* sparkle ai dot — used inline before "AI" eyebrows */
-  .ai-dot { @apply inline-block h-1.5 w-1.5 rounded-full bg-gradient-to-br from-alpine-500 to-rust-500; }
+  /* ai dot — single flat alpine, the shared "system/AI" accent. Inline before
+     "AI" eyebrows. Flat over a 2-colour gradient: one accent, held consistently. */
+  .ai-dot { @apply inline-block h-1.5 w-1.5 rounded-full bg-alpine-500; }
 
   /* page containers — editorial vs app vs wide */
   .container-editorial { @apply mx-auto w-full max-w-5xl px-4 py-16; }

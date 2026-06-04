@@ -1,0 +1,39 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- base -->
+  <rect width="1200" height="630" fill="#faf7f2" />
+
+  <!-- faint topographic ridge band along the bottom (single-hue alpine, decorative-but-on-brand) -->
+  <g stroke="#286b88" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 470 L160 430 L300 452 L470 408 L640 446 L820 418 L1000 450 L1200 416 L1200 630 L0 630 Z" fill="#194256" fill-opacity="0.05" stroke="none" />
+    <path d="M0 510 L150 484 L320 500 L520 470 L720 498 L920 478 L1100 502 L1200 486" stroke-opacity="0.22" stroke-width="1.4" />
+    <path d="M0 470 L160 430 L300 452 L470 408 L640 446 L820 418 L1000 450 L1200 416" stroke-opacity="0.30" stroke-width="1.4" />
+  </g>
+
+  <!-- mark -->
+  <g transform="translate(96, 92) scale(2.0)">
+    <g stroke="#286b88" stroke-linecap="round" opacity="0.55">
+      <line x1="6" y1="9" x2="6" y2="5" stroke-width="1" />
+      <line x1="13" y1="6" x2="13" y2="2" stroke-width="1.5" />
+      <line x1="20" y1="5" x2="20" y2="2.5" stroke-width="2" />
+      <line x1="26" y1="8" x2="26" y2="4.5" stroke-width="1.5" />
+    </g>
+    <path d="M2 24 L11 11 L18 20 Z" fill="#194256" opacity="0.55" />
+    <path d="M9 24 L19 8 L30 24 Z" fill="#194256" />
+    <path d="M16 13 L19 8 L22 13 L20.5 14.5 L19 13 L17.5 14.5 Z" fill="#faf7f2" />
+    <line x1="2" y1="24" x2="30" y2="24" stroke="#286b88" stroke-width="0.6" opacity="0.6" />
+  </g>
+  <text x="160" y="118" font-family="Georgia, 'Times New Roman', serif" font-size="26" letter-spacing="1" fill="#0c1c25">Aurora</text>
+  <text x="160" y="142" font-family="Georgia, serif" font-style="italic" font-size="15" letter-spacing="5" fill="#c45a2c">OUTFITTERS</text>
+
+  <!-- headline -->
+  <text x="96" y="320" font-family="Georgia, 'Times New Roman', serif" font-size="92" font-weight="500" fill="#241910">Aurora Concierge</text>
+  <text x="98" y="392" font-family="Georgia, serif" font-style="italic" font-size="40" fill="#286b88">agentic retrieval, grounded in your knowledge</text>
+
+  <!-- subtitle -->
+  <text x="98" y="452" font-family="Helvetica, Arial, sans-serif" font-size="24" fill="#583f1f">One knowledge box, six customer surfaces — search, concierge, personalization,</text>
+  <text x="98" y="486" font-family="Helvetica, Arial, sans-serif" font-size="24" fill="#583f1f">journey graph and winback, all citing the same grounded source.</text>
+
+  <!-- footer tag -->
+  <rect x="96" y="540" width="14" height="14" rx="3" fill="#c45a2c" />
+  <text x="122" y="552" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="600" letter-spacing="0.5" fill="#7a5a2b">Progress Agentic RAG · Partner Enablement Reference</text>
+</svg>

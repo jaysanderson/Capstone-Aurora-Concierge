@@ -764,7 +764,7 @@ function AmbassadorAvatar({ name }: { name: string }) {
     .join('')
     .toUpperCase() || '?';
   return (
-    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-alpine-500 to-rust-500 text-[11px] font-semibold text-white">
+    <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-alpine-500 text-[11px] font-semibold text-white">
       {initials}
     </div>
   );
