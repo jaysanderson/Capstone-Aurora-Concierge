@@ -133,7 +133,7 @@ export function Landing() {
               See your personalised feed
             </Link>
             <a
-              href="mailto:jay@vestedtechnology.com.au?subject=Aurora%20Concierge%20%E2%80%94%20book%20a%20walkthrough"
+              href="mailto:concierge@aurora-outfitters.example.com?subject=Aurora%20Concierge%20%E2%80%94%20book%20a%20walkthrough"
               className="rounded-full border border-rust-300 bg-white px-4 py-2 text-sm font-medium text-rust-700 hover:bg-rust-50 transition"
             >
               Book a walkthrough →
