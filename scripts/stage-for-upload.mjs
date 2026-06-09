@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
- * Stage corpus markdown files for Nuclia dashboard drag-and-drop upload.
+ * Stage corpus markdown files for Progress Agentic RAG dashboard drag-and-drop upload.
  *
  * Walks corpus/content_type/<ct>/<file>.md and copies each to
  * ~/Desktop/aurora-upload/<ct>-<file>.md.
  *
- * The composite filename matters: when you drag a file into the Nuclia
+ * The composite filename matters: when you drag a file into the Progress Agentic RAG
  * dashboard, the resulting resource slug is derived from the filename.
  * We need slugs like `product-terratrek-7` so that:
  *
@@ -69,4 +69,4 @@ for (const m of mapping) {
   console.log(`  ${m.src.padEnd(50)} → ${m.dst}`);
 }
 console.log();
-console.log(`Next: drag the contents of ${STAGE} into the Nuclia dashboard's resources panel.`);
+console.log(`Next: drag the contents of ${STAGE} into the Progress Agentic RAG dashboard's resources panel.`);

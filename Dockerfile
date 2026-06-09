@@ -28,7 +28,7 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/dist /usr/share/nginx/html
 # Runtime config: the nginx image runs /docker-entrypoint.d/*.sh before starting
 # nginx. This regenerates /config.js from env / Fly secrets each boot, so the
-# static bundle gets its Nuclia config at runtime (no --build-arg needed).
+# static bundle gets its Progress Agentic RAG config at runtime (no --build-arg needed).
 COPY scripts/aurora-runtime-config.sh /docker-entrypoint.d/40-aurora-config.sh
 RUN chmod +x /docker-entrypoint.d/40-aurora-config.sh
 EXPOSE 8080

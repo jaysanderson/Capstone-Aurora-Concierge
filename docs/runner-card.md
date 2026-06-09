@@ -38,7 +38,7 @@ papersize: letter
 
 | Symptom | Likely cause | Recovery line |
 |---------|--------------|---------------|
-| `/storefront` empty results | Nuclia rate limit | "Let me ask it instead" — switch to floating chat |
+| `/storefront` empty results | Progress Agentic RAG rate limit | "Let me ask it instead" — switch to floating chat |
 | Chat doesn't stream | Network blip | Refresh + "The streaming layer hiccuped — production has retry" |
 | `/for-you` sections empty | KB warmup | "This is grounded retrieval — when the corpus is cold it's transparent about it" |
 | `/personalize` JSON malformed | Schema constraint too tight | "Switch destination" + regenerate |

@@ -196,7 +196,7 @@ export function Storefront() {
           query: debounced,
           filters,
           maxTokens: 260,
-          // Explicit system prompt — otherwise Nuclia's default prefaces
+          // Explicit system prompt — otherwise Progress Agentic RAG's default prefaces
           // answers with "Based on the context provided…" which reads as
           // prompt scaffolding leaking to the customer.
           promptConfig: {

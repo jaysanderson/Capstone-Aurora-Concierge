@@ -272,7 +272,7 @@ function normaliseResource(id: string, r: Record<string, unknown>): ResourceHit 
 function extractExcerpt(r: Record<string, unknown> | undefined | null): string | undefined {
   if (!r) return undefined;
   try {
-    // Modern Nuclia tenants surface text under data.texts.<field>.value.body.
+    // Modern Progress Agentic RAG tenants surface text under data.texts.<field>.value.body.
     // Older tenants (Foundation builds) use r.fields.<field>.paragraphs.
     const data = (r as { data?: { texts?: Record<string, unknown> } })?.data;
     const texts = (data?.texts as Record<string, { value?: { body?: unknown } }> | undefined) ?? {};
@@ -296,7 +296,7 @@ function extractTopScore(r: Record<string, unknown> | undefined | null): number 
   if (!r) return 0;
   try {
     let best = 0;
-    // Modern Nuclia tenant path — paragraphs hang off data.texts.<field>.
+    // Modern Progress Agentic RAG tenant path — paragraphs hang off data.texts.<field>.
     // Each paragraph entry may expose `score` directly, or nest it under
     // `metadata.score` / `score_type`. Try both shapes so this works across
     // tenant versions.
@@ -355,7 +355,7 @@ function extractCustomField(r: Record<string, unknown> | undefined | null, name:
         ? safeJsonParse(custom[name] as string)
         : custom[name];
     }
-    // Path 2 — data.texts.<name>.value.body (the canonical Nuclia text-field path).
+    // Path 2 — data.texts.<name>.value.body (the canonical Progress Agentic RAG text-field path).
     // populate-custom-fields.mjs PATCHes here.
     const data = ((r as { data?: { texts?: Record<string, unknown> } })?.data?.texts as Record<string, { value?: { body?: unknown } }> | undefined) ?? {};
     const text = data[name]?.value?.body;

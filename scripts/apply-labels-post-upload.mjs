@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Backfill the 3 labelsets (content_type / audience / region) on
- * resources uploaded via the Nuclia dashboard.
+ * resources uploaded via the Progress Agentic RAG dashboard.
  *
  * The dashboard's drag-and-drop upload doesn't apply classifications —
  * it just creates the resource with the file body. This script reads each
@@ -10,7 +10,7 @@
  *
  * Critical: PATCHes ONLY usermetadata.classifications. Does not touch
  * data.texts (would wipe the field-engineered fields the next script
- * applies). Does not send a `custom` key (not in Nuclia's schema).
+ * applies). Does not send a `custom` key (not in Progress Agentic RAG's schema).
  *
  * Usage:
  *   node scripts/apply-labels-post-upload.mjs              # apply
@@ -98,7 +98,7 @@ async function main() {
   console.log(`\nDone. ok=${ok} missing=${missing} failed=${fail}`);
   if (missing > 0) {
     console.log('\nMissing resources: Jay needs to upload these to the dashboard first, OR the dashboard generated a different slug than expected.');
-    console.log('Check the Nuclia dashboard Resources tab for the actual slug of each file.');
+    console.log('Check the Progress Agentic RAG dashboard Resources tab for the actual slug of each file.');
   }
   if (fail > 0) process.exit(1);
 }

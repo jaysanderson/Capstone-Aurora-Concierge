@@ -5,8 +5,8 @@
  * NOTE — This script is OPTIONAL for ingest.
  * --------------------------------------------------------------------
  * The capstone's primary ingest path is **drag-and-drop**: partners
- * drag the `corpus/content_type/` folder into the Nuclia dashboard's
- * upload area and Nuclia auto-applies the `content_type` labelset
+ * drag the `corpus/content_type/` folder into the Progress Agentic RAG dashboard's
+ * upload area and Progress Agentic RAG auto-applies the `content_type` labelset
  * from the folder names. No scripts, no env vars, no terminal.
  *
  * This script is the fallback for partners who:

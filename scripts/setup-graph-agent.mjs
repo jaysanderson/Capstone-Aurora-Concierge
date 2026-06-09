@@ -4,10 +4,10 @@
  *
  * POSTs to /kb/{id}/tasks/start with task `llm-graph` configured with
  * 10 Aurora entity types. Relations are extracted automatically by the
- * task's LLM — Nuclia's llm-graph task discovers relations from text,
+ * task's LLM — Progress Agentic RAG's llm-graph task discovers relations from text,
  * constrained by the entity types we provide.
  *
- * After registration, Nuclia processes the existing corpus + any new
+ * After registration, Progress Agentic RAG processes the existing corpus + any new
  * resources through this task automatically. Wall-time: ~1-2 min per
  * resource for ~30-60 min over the full 37-doc corpus.
  */

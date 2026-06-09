@@ -1,7 +1,7 @@
 #!/bin/sh
 # Generate /config.js from the container's environment (Fly secrets are injected
 # as env vars at runtime). Runs via the nginx image's /docker-entrypoint.d hook
-# BEFORE nginx starts, so the static SPA reads its Nuclia config at runtime
+# BEFORE nginx starts, so the static SPA reads its Progress Agentic RAG config at runtime
 # instead of having it baked in at Docker-build time. Empty/unset vars are
 # omitted, so the app falls back to any build-time values for local use.
 set -eu

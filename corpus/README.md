@@ -31,7 +31,7 @@ Also worth setting:
 
 ## Step 2 · Upload the corpus folder (no scripts)
 
-The corpus ships pre-organised by content type. Each subfolder name under `corpus/content_type/` will become a label on the `content_type` labelset when you upload with Nuclia's folder-as-labels feature.
+The corpus ships pre-organised by content type. Each subfolder name under `corpus/content_type/` will become a label on the `content_type` labelset when you upload with Progress Agentic RAG's folder-as-labels feature.
 
 ```
 corpus/
@@ -46,15 +46,15 @@ corpus/
     └── trail_guide/       (7 md)
 ```
 
-**37 markdown + 10 binary files = 47 total resources across 8 content types.** The 10 binary files are 2 PDFs, 2 DOCX, 2 PPTX, 2 MP3, and 2 MP4 — deliberately mixed-format so the sandbox reflects what a partner faces in production. Nuclia auto-OCRs the PDFs, extracts text from the DOCX and PPTX, and transcribes the MP3 + MP4 with its Whisper integration at ingest time. No format-specific configuration is needed; the Upload folder feature handles each format natively.
+**37 markdown + 10 binary files = 47 total resources across 8 content types.** The 10 binary files are 2 PDFs, 2 DOCX, 2 PPTX, 2 MP3, and 2 MP4 — deliberately mixed-format so the sandbox reflects what a partner faces in production. Progress Agentic RAG auto-OCRs the PDFs, extracts text from the DOCX and PPTX, and transcribes the MP3 + MP4 with its Whisper integration at ingest time. No format-specific configuration is needed; the Upload folder feature handles each format natively.
 
-In the Nuclia dashboard:
+In the Progress Agentic RAG dashboard:
 
 1. Open your Knowledge Box → **Resources** → **Upload** → **Upload folder** (exact wording varies; look for an "Upload folder" option, not the single-file uploader).
 2. Pick the **`corpus/content_type/`** folder on your machine.
-3. Enable the **"Use folder names as label names"** option (the exact label varies by tenant; look for a checkbox or toggle that says "folder names as labels" or "auto-label from folders"). With that enabled, Nuclia takes the parent folder name (`content_type`) as the labelset name and the subfolder names (`product`, `trail_guide`, `podcast`, etc.) as the label values applied to every document inside.
-4. Confirm and start the upload. Nuclia processes all 47 documents.
-5. Wait for ingest to complete. The dashboard's progress indicator shows resource count climbing. The MP4 and MP3 files take longer than the text formats because Nuclia transcribes them at ingest — the transcript becomes the searchable text content.
+3. Enable the **"Use folder names as label names"** option (the exact label varies by tenant; look for a checkbox or toggle that says "folder names as labels" or "auto-label from folders"). With that enabled, Progress Agentic RAG takes the parent folder name (`content_type`) as the labelset name and the subfolder names (`product`, `trail_guide`, `podcast`, etc.) as the label values applied to every document inside.
+4. Confirm and start the upload. Progress Agentic RAG processes all 47 documents.
+5. Wait for ingest to complete. The dashboard's progress indicator shows resource count climbing. The MP4 and MP3 files take longer than the text formats because Progress Agentic RAG transcribes them at ingest — the transcript becomes the searchable text content.
 
 That's it — for the storefront, concierge, and journey-graph surfaces. No scripts, no env vars, no terminal commands.
 
@@ -83,11 +83,11 @@ npm run seed -- --dry-run   # preview
 npm run seed                # apply
 ```
 
-The script reads frontmatter and PATCHes all three labelsets onto each resource via the Nuclia API. Run it after the drag-drop ingest (it's idempotent — re-runs are safe).
+The script reads frontmatter and PATCHes all three labelsets onto each resource via the Progress Agentic RAG API. Run it after the drag-drop ingest (it's idempotent — re-runs are safe).
 
 ### Optional · Programmatic ingest via seed script
 
-For partners scaling beyond the bundled 37 docs (e.g. after running `progress-kb-use-case-generator` to produce a larger corpus) or who skipped the drag-drop entirely, `scripts/seed-kb.mjs` POSTs documents directly to the Nuclia API with full classification metadata read from frontmatter. See `npm run seed -- --help`.
+For partners scaling beyond the bundled 37 docs (e.g. after running `progress-kb-use-case-generator` to produce a larger corpus) or who skipped the drag-drop entirely, `scripts/seed-kb.mjs` POSTs documents directly to the Progress Agentic RAG API with full classification metadata read from frontmatter. See `npm run seed -- --help`.
 
 ---
 

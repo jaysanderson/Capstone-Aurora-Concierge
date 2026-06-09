@@ -1,7 +1,7 @@
 {
   "content_type": {
     "title": "Content type",
-    "description": "Editorial / structural category. Auto-applied from the top-level corpus folder name when a partner drag-and-drops the corpus folder into the Nuclia dashboard.",
+    "description": "Editorial / structural category. Auto-applied from the top-level corpus folder name when a partner drag-and-drops the corpus folder into the Progress Agentic RAG dashboard.",
     "labels": [
       { "name": "product", "description": "Product pages." },
       { "name": "trail_guide", "description": "Trail-guide content." },

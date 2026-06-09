@@ -6,7 +6,7 @@
 
 ## What this is
 
-A complete React + Vite + TypeScript + Tailwind reference app that scores 100% against the Aurora brief once provisioned against a populated Nuclia KB. Includes:
+A complete React + Vite + TypeScript + Tailwind reference app that scores 100% against the Aurora brief once provisioned against a populated Progress Agentic RAG KB. Includes:
 
 - **Six demo surfaces:** `/storefront`, `/concierge`, `/personalize`, `/journey-graph`, `/abandoned-cart` + landing.
 - **Floating two-voice chat** present on every page, voice toggled by persona (Sara prospect / Mara Trail Club Pro).

@@ -136,7 +136,7 @@ async function patchResource(slug, fields) {
   const id = lookupBody?.id ?? lookupBody?.uuid ?? lookupBody?.rid;
   if (!id) throw new Error(`No resource id for slug ${slug}`);
 
-  // PATCH data.texts.<fieldname>.body — Nuclia's user-metadata schema
+  // PATCH data.texts.<fieldname>.body — Progress Agentic RAG's user-metadata schema
   // doesn't have a `custom` field; arbitrary JSON or strings live as
   // separate text fields on the resource. The app's ragClient.ts looks
   // these up via the data.texts[name].body fallback path.

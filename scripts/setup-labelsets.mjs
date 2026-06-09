@@ -46,7 +46,7 @@ async function main() {
     };
 
     // PUT to /labelset/{name} is the idempotent create-or-update path
-    // on Nuclia. If your tenant doesn't support PUT, this falls back
+    // on Progress Agentic RAG. If your tenant doesn't support PUT, this falls back
     // to POST /labelsets with {id: name, ...}.
     const putUrl = `${baseUrl}/labelset/${name}`;
     const r = await fetch(putUrl, {

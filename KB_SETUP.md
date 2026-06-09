@@ -4,13 +4,13 @@
 
 - Node.js 18+.
 - Python 3.9+ (for `scripts/graph-agent.py`).
-- Nuclia account with KB-create permission.
+- Progress Agentic RAG account with KB-create permission.
 - BYO-LLM provider (Azure OpenAI / Google Vertex / AWS Bedrock).
 - Fly.io account (for deploy).
 
 ## Step 1 — Provision the KB
 
-Nuclia dashboard → Create KB → name `kb-aurora-concierge` → region EU (default).
+Progress Agentic RAG dashboard → Create KB → name `kb-aurora-concierge` → region EU (default).
 Copy API URL, KB UUID, service-account JWT.
 
 ## Step 2 — Environment
@@ -58,7 +58,7 @@ This adds `callToAction`, `searchResultDisplay`, and `videoInfo` custom fields t
 python scripts/graph-agent.py --print   # see the JSON spec
 ```
 
-Either paste into Nuclia dashboard → Augmentation → Graph, or:
+Either paste into Progress Agentic RAG dashboard → Augmentation → Graph, or:
 
 ```bash
 python scripts/graph-agent.py --apply   # Manager API

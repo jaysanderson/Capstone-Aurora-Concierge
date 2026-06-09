@@ -3,7 +3,7 @@
  *
  * EVERY query — node-by-group, fuzzy, and path — carries the
  * {prop:'generated', by:'data-augmentation'} filter so we ONLY see entities
- * from Aurora's custom journey-graph agent. Default Nuclia NER (PERSON,
+ * from Aurora's custom journey-graph agent. Default Progress Agentic RAG NER (PERSON,
  * ORG, GPE, DATE, MONEY, etc.) is never surfaced. This is critical:
  * without the filter, fuzzy("mara") returns NER's PERSON "Mara" alongside
  * AMBASSADOR "Mara Chen" and the page becomes noise.
@@ -143,7 +143,7 @@ export class GraphQueryError extends Error {
  *
  * IMPORTANT: only pass `value` + `group` on the source. The GraphNode type
  * carries `type: 'ENTITY'` (uppercase) because that's how we model it
- * client-side, but Nuclia's schema validator expects `type` to be one of
+ * client-side, but Progress Agentic RAG's schema validator expects `type` to be one of
  * 'entity' | 'label' | 'resource' | 'user' (lowercase) and 422s on
  * 'ENTITY'. Earlier builds spread the whole node into source and got a
  * universal 422 — "Input should be 'entity', 'label', 'resource' or 'user'".
